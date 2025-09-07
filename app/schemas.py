@@ -1,35 +1,35 @@
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, Union
 
-# Input schema
+# Input schema - accepts raw/dirty data that needs preprocessing
 class CreditRequest(BaseModel):
     ID: str
     Customer_ID: str
     Month: str
     Name: str
-    Age: int
+    Age: Union[str, int, float]  # Can be dirty like "25_" 
     SSN: str
     Occupation: str
-    Annual_Income: float
-    Monthly_Inhand_Salary: float
-    Num_Bank_Accounts: int
-    Num_Credit_Card: int
-    Interest_Rate: int
-    Num_of_Loan: int
+    Annual_Income: Union[str, int, float]  # Can be dirty
+    Monthly_Inhand_Salary: Union[str, int, float]  # Can be dirty
+    Num_Bank_Accounts: Union[str, int, float]  # Can be dirty
+    Num_Credit_Card: Union[str, int, float]  # Can be dirty
+    Interest_Rate: Union[str, int, float]  # Can be dirty
+    Num_of_Loan: Union[str, int, float]  # Can be dirty like "7_"
     Type_of_Loan: str
-    Delay_from_due_date: int
-    Num_of_Delayed_Payment: int
-    Changed_Credit_Limit: float
-    Num_Credit_Inquiries: int
+    Delay_from_due_date: Union[str, int, float]  # Can be dirty
+    Num_of_Delayed_Payment: Union[str, int, float]  # Can be dirty
+    Changed_Credit_Limit: Union[str, int, float]  # Can be dirty
+    Num_Credit_Inquiries: Union[str, int, float]  # Can be dirty like "2022.0"
     Credit_Mix: str
-    Outstanding_Debt: float
-    Credit_Utilization_Ratio: float
-    Credit_History_Months: str
+    Outstanding_Debt: Union[str, int, float]  # Can be dirty
+    Credit_Utilization_Ratio: Union[str, int, float]  # Can be dirty
+    Credit_History_Age: str  # Will be converted to Credit_History_Months
     Payment_of_Min_Amount: str
-    Total_EMI_per_month: float
-    Amount_invested_monthly: float
+    Total_EMI_per_month: Union[str, int, float]  # Can be dirty
+    Amount_invested_monthly: Union[str, int, float]  # Can be dirty
     Payment_Behaviour: str
-    Monthly_Balance: float
+    Monthly_Balance: Union[str, int, float]  # Can be dirty
 
 # Output schema
 class CreditResponse(BaseModel):

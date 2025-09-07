@@ -9,20 +9,13 @@ model = joblib.load(MODEL_PATH)
 def predict_credit_score(data: dict) -> dict:
     # Convert incoming data to DataFrame
     df = pd.DataFrame([data])
-
-    # Fix column naming mismatch if needed
-    if "Credit_History_Age" in df.columns and "Credit_History_Months" not in df.columns:
-        # You may need to extract months from the string like "22 Years and 9 Months"
-        df["Credit_History_Months"] = df["Credit_History_Age"]
-        df.drop(columns=["Credit_History_Age"], inplace=True)
-
-    # Drop non-feature columns
-    drop_cols = ["ID", "Name", "SSN"]
-    df = df.drop(columns=[c for c in drop_cols if c in df.columns])
-
+    
+    # Apply your comprehensive preprocessing function
+    df_processed = automate_cleaning_and_feature_engineering_FINAL(df)
+    
     # Get prediction and probabilities
-    predicted_category = model.predict(df)[0]
-    predicted_proba = model.predict_proba(df)
+    predicted_category = model.predict(df_processed)[0]
+    predicted_proba = model.predict_proba(df_processed)
 
     # Get class order and map
     class_order = model.classes_  # e.g. ['Good', 'Poor', 'Standard']
